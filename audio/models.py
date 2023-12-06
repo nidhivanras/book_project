@@ -16,7 +16,7 @@ class AudioFolder(models.Model):
 class AudioFolderFiles(models.Model):
     folder = models.ForeignKey(AudioFolder, on_delete=models.CASCADE)
     title = models.TextField(null=True)
-    part = models.IntegerField(null=True, blank=True)
+    part = models.FloatField(null=True, blank=True)
     file = models.FileField(upload_to='audio_folder_files')
 
     def __str__(self):
