@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-2o7nntt^zb3=1)vu@=g&+eij7bdq7-*=^j&uhe#zngv8yrc_kl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'nidhivanras.com', 'www.nidhivanras.com']
 
 
 # Application definition
@@ -49,7 +49,7 @@ ROOT_URLCONF = 'book_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,7 +71,7 @@ WSGI_APPLICATION = 'book_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'my_db/db.sqlite3',
     }
 }
 
