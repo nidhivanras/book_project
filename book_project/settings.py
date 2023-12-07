@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'video',
     'vichar',
     'homepage',
+    'lookup',
 ]
 
 MIDDLEWARE = [
