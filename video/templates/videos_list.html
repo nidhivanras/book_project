@@ -2,14 +2,14 @@
 
 {% block content %}
 <!-- Content -->
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <div class="row">
         {% for video in videos %}
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="custom-div mb-4">
                 <p>{{ video.snippet.title }}</p>
                 <p>{{ video.snippet.description }}</p>
-                <div class="embed-responsive embed-responsive-16by9">
+                <div class="embed-responsive embed-responsive-4by3">
                     <div class="youtube-player" data-id="{{ video.id.videoId }}"></div>
                 </div>
             </div>
@@ -28,8 +28,8 @@
         $(".youtube-player").each(function () {
             var videoId = $(this).data("id");
             var player = new YT.Player(this, {
-                height: '315',
-                width: '560',
+                height: '100%',
+                width: '100%', // Set width to 100% for responsiveness
                 videoId: videoId,
                 events: {
                     'onStateChange': onPlayerStateChange
@@ -52,5 +52,6 @@
             }
         }
     }
+
 </script>
 {% endblock js %}
