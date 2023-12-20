@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Content -->
+<div class="container mt-5">
+    <div class="row">
+        {% for i in vichar %}
+        <div class="col-lg-3">
+            <img src="{{i.image.url}}" alt="" class="img-fluid">
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

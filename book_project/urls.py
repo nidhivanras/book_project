@@ -8,6 +8,8 @@ urlpatterns = [
     path('', include('homepage.urls')),
     path('audio/', include('audio.urls')),
     path('video/', include('video.urls')),
+    path('pravachan/', include('pravachan.urls')),
+    path('vichar/', include('vichar.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
