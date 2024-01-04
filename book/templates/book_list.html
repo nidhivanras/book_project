@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Content -->
+<div class="container mt-5">
+    <div class="row">
+        {% for i in book_folder %}
+        <div class="col-md-4" onclick="book_folder_files('{{i.id}}');">
+            <div class="custom-div">
+                <img src="{{i.image.url}}" alt="" height="250px">
+                <h2 class="mt-3">{{i.title}}</h2>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script>
+        function book_folder_files(folder_id){
+            window.location.href = '/book/book_folder_files/'+folder_id+'/';
+        }
+</script>
+{% endblock js %}

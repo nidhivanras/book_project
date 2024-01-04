@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Your Page Title</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        #wrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #sidebar {
+            width: 200px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+            overflow-y: auto;
+            flex-shrink: 0; /* Prevent sidebar from shrinking on smaller screens */
+        }
+
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        /* Style for the sidebar items */
+        #sidebar li {
+            list-style-type: none;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the image in the content */
+        #content img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Style for the sticky navbar */
+        #navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav id="navbar" class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Your Brand</a>
+    </div>
+</nav>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar" class="d-none d-md-block">
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+            <!-- Add more items as needed -->
+        </ul>
+    </div>
+
+    <!-- Page Content -->
+    <div id="content">
+        <img src="your-image-url.jpg" alt="Your Image">
+        <!-- Add your content here -->
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies (popper.js and jQuery) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

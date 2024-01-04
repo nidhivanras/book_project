@@ -14,10 +14,9 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-4">
-            <div class="custom-div">
+            <div class="custom-div" onclick="book_list();">
                 <i class='fas fa-book-open' style='font-size:36px'></i>
                 <h2 class="mt-3">किताब </h2>
-                <!-- Content for div 1 goes here -->
             </div>
         </div>
 
@@ -81,6 +80,9 @@
 
         function vichar_list(){
             window.location.href = '/vichar/';
+        }
+        function book_list(){
+            window.location.href = '/book/';
         }
 
 </script>

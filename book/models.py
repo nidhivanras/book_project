@@ -14,14 +14,14 @@ class Writer(models.Model):
 
 
 class Book(models.Model):
-    name = models.TextField()
+    title = models.TextField()
     image = models.ImageField(upload_to='book_image')
     writer = models.ForeignKey(Writer, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(null=True)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.title)
 
 
 class BookIndex(models.Model):
@@ -33,4 +33,4 @@ class BookIndex(models.Model):
     updated_at = models.DateField(null=True)
 
     def __str__(self):
-        return str(str(self.book.name) + str(self.index_title))
+        return str(str(self.book.title) + str(self.index_title))

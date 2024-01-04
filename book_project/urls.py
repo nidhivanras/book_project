@@ -10,6 +10,7 @@ urlpatterns = [
     path('video/', include('video.urls')),
     path('pravachan/', include('pravachan.urls')),
     path('vichar/', include('vichar.urls')),
+    path('book/', include('book.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

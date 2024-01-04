@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Book Reading Template</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #nav-buttons {
+            margin-bottom: 10px;
+        }
+
+        #page-num {
+            margin-bottom: 10px;
+        }
+
+        #pdf-container {
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            position: relative;
+            border: 1px solid #ddd;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #zoom-controls {
+            margin-bottom: 10px;
+        }
+
+        #zoom-controls button {
+            font-size: 14px;
+            padding: 4px 10px;
+            margin-right: 5px;
+        }
+</style>
+</head>
+
+<body>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-3 order-lg-1 order-2">
+            <button aria-controls="sidebar" class="btn btn-primary d-lg-none" data-bs-target="#sidebar"
+                    data-bs-toggle="offcanvas" type="button">
+                Open Index
+            </button>
+
+            <div class="offcanvas offcanvas-start d-lg-none" id="sidebar" tabindex="-1">
+                <div class="offcanvas-header">
+                    <h2 class="offcanvas-title">Book Index</h2>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="list-group">
+                        {% for index in index %}
+                        <li class="list-group-item" onclick="get_index('{{index.id}}')">{{index.index_title}}</li>
+                        {% endfor %}
+
+                        <!-- Add more list items for each chapter -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-none d-lg-block">
+                <h2>Book Index</h2>
+                <ul class="list-group">
+                    {% for folder_files in folder_files %}
+                    <li class="list-group-item" style="cursor:pointer;" onclick="get_index('{{folder_files.id}}')">{{folder_files.index_title}}</li>
+                    {% endfor %}
+
+                    <!-- Add more list items for each chapter -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-9 order-lg-2 order-1">
+            <div id="nav-buttons">
+                <button id="prev-page">Previous</button>
+                <button id="next-page">Next</button>
+            </div>
+
+            <div id="page-num">
+                Page <span id="current-page"></span> of <span id="total-pages"></span>
+            </div>
+
+            <div id="zoom-controls">
+                <button id="zoom-out">-</button>
+                <button id="zoom-reset">Reset</button>
+                <button id="zoom-in">+</button>
+            </div>
+
+            <div id="pdf-container"></div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+
+
+<script>
+
+// Global variables
+
+let pdfInstance;
+
+let currentPage = 1;
+
+let totalPages = 0;
+
+let currentZoom = 1.5;
+
+
+// PDF.js configuration
+
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+
+// Function to render a specific page
+
+function renderPage(pageNumber) {
+
+pdfInstance.getPage(pageNumber).then(page => {
+
+const canvas = document.createElement('canvas');
+
+const context = canvas.getContext('2d');
+
+
+// Set the canvas dimensions to match the PDF page
+
+const viewport = page.getViewport({ scale: currentZoom });
+
+canvas.width = viewport.width;
+
+canvas.height = viewport.height;
+
+
+// Render the PDF page into the canvas
+
+const renderContext = {
+
+    canvasContext: context,
+
+    viewport: viewport
+
+};
+
+page.render(renderContext).promise.then(() => {
+
+    // Append the canvas to the PDF container
+
+    const pdfContainer = document.getElementById('pdf-container');
+
+    pdfContainer.innerHTML = '';
+
+    pdfContainer.appendChild(canvas);
+
+    });
+
+    });
+
+}
+
+
+// Function to update the page number display
+
+function updatePageNumber() {
+
+document.getElementById('current-page').textContent = currentPage;
+
+document.getElementById('total-pages').textContent = totalPages;
+
+}
+
+
+// Function to go to the previous page
+
+function goToPreviousPage() {
+
+    if (currentPage <= 1) return;
+
+    currentPage--;
+
+    renderPage(currentPage);
+
+    updatePageNumber();
+
+}
+
+
+// Function to go to the next page
+
+function goToNextPage() {
+
+    if (currentPage >= totalPages) return;
+
+    currentPage++;
+
+    renderPage(currentPage);
+
+    updatePageNumber();
+
+}
+
+
+// Function to zoom in
+
+function zoomIn() {
+
+    currentZoom += 0.1;
+
+    renderPage(currentPage);
+
+}
+
+
+// Function to zoom out
+
+function zoomOut() {
+
+    if (currentZoom <= 0.1) return;
+
+    currentZoom -= 0.1;
+
+    renderPage(currentPage);
+
+}
+
+
+// Function to reset zoom
+
+function resetZoom() {
+
+    currentZoom = 1.5;
+
+    renderPage(currentPage);
+
+}
+
+
+// Load the PDF document
+
+function get_index(index_id){
+    var url = '/book/get_index_pdf/'+index_id+'/';
+    var myObject = {
+          'index_id':index_id,
+    }
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        data: myObject,
+        success: function (response) {
+            var responseData = response
+            pdfjsLib.getDocument(responseData.pdf).promise.then(pdf => {
+                pdfInstance = pdf;
+                totalPages = pdf.numPages;
+                updatePageNumber();
+                renderPage(currentPage);
+            });
+        },
+        error: function (xhr, status, error) {
+            // Handle error here
+            console.log(error);
+        }
+    });
+
+}
+
+
+// Event listeners for navigation buttons
+
+document.getElementById('prev-page').addEventListener('click', goToPreviousPage);
+
+document.getElementById('next-page').addEventListener('click', goToNextPage);
+
+
+// Event listeners for zoom controls
+
+document.getElementById('zoom-in').addEventListener('click', zoomIn);
+
+document.getElementById('zoom-out').addEventListener('click', zoomOut);
+
+document.getElementById('zoom-reset').addEventListener('click', resetZoom);
+
+
+</script>
+</body>
+
+</html>
