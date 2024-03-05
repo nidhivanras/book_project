@@ -13,10 +13,31 @@
           li{
             cursor:pointer;
           }
+          body {
+            margin: 0;
+            padding: 0;
+        }
+        #page-num {
+            margin-bottom: 10px;
+        }
 
+        #pdf-container {
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            position: relative;
+            border: 1px solid #ddd;
+        }
 
+        #zoom-controls {
+            margin-bottom: 10px;
+        }
 
-
+        #zoom-controls button {
+            font-size: 14px;
+            padding: 4px 10px;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -28,7 +49,7 @@
                 <span class="sr-only">Toggle Menu</span>
             </button>
         </div>
-        <h1><a href="index.html" class="logo">Project Name</a></h1>
+        <h1><a href="/" class="logo">Home</a></h1>
         <ul class="list-unstyled components mb-5">
             {% for index in folder_files %}
             <li class="active">
@@ -41,7 +62,7 @@
     </nav>
 
     <!-- Page Content  -->
-    <div id="content" class="p-4 p-md-5 pt-5">
+    <div id="content" class="p-4 p-md-5 pt-5 text-center">
         <div id="nav-buttons">
             <button id="prev-page" class="btn btn-primary">Previous</button>
             <button id="next-page" class="btn btn-primary">Next</button>
