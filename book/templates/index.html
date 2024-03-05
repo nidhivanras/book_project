@@ -22,7 +22,7 @@
         }
 
         canvas {
-            width: 100%;
+            width: 40%;
             height: auto;
         }
 
@@ -282,13 +282,21 @@ document.getElementById('zoom-in').addEventListener('click', zoomIn);
 document.getElementById('zoom-out').addEventListener('click', zoomOut);
 
 document.getElementById('zoom-reset').addEventListener('click', resetZoom);
-
-
-
-
-
-
-
 </script>
+
+<script>
+    // Function to toggle the sidebar
+    function toggleSidebar() {
+        $('#sidebar').toggleClass('active');
+    }
+
+    const listItems = document.querySelectorAll('#sidebar ul li');
+    listItems.forEach(item => {
+        item.addEventListener('click', toggleSidebar);
+    });
+
+    // Global variables and other functions...
+</script>
+
 </body>
 </html>
