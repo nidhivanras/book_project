@@ -25,5 +25,4 @@ def get_index_pdf(request, index_id):
     context = {
         'pdf': pdf_files.file.url,
     }
-
     return JsonResponse(context)
