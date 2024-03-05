@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Sidebar 04</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+          li{
+            cursor:pointer;
+          }
+
+
+
+
+    </style>
+</head>
+<body>
+<div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+        <div class="custom-menu">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+        </div>
+        <h1><a href="index.html" class="logo">Project Name</a></h1>
+        <ul class="list-unstyled components mb-5">
+            {% for index in folder_files %}
+            <li class="active">
+                <a href="javascript:void(0)" onclick="get_index('{{index.id}}')">
+                    {{index.index_title}}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5 pt-5">
+        <div id="nav-buttons">
+            <button id="prev-page" class="btn btn-primary">Previous</button>
+            <button id="next-page" class="btn btn-primary">Next</button>
+        </div>
+        <div id="page-num">
+            Page <span id="current-page"></span> of <span id="total-pages"></span>
+        </div>
+        <div id="pdf-container"></div>
+        <div id="zoom-controls">
+            <button id="zoom-out" class="btn btn-primary">-</button>
+            <button id="zoom-reset" class="btn btn-primary">Reset</button>
+            <button id="zoom-in" class="btn btn-primary">+</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/main_js/jquery.min.js"></script>
+<script src="/static/main_js/popper.js"></script>
+<script src="/static/main_js/bootstrap.min.js"></script>
+<script src="/static/main_js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+
+
+<script>
+
+// Global variables
+
+let pdfInstance;
+
+let currentPage = 1;
+
+let totalPages = 0;
+
+let currentZoom = 1.5;
+
+
+// PDF.js configuration
+
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+
+// Function to render a specific page
+
+function renderPage(pageNumber) {
+
+pdfInstance.getPage(pageNumber).then(page => {
+
+const canvas = document.createElement('canvas');
+
+const context = canvas.getContext('2d');
+
+
+// Set the canvas dimensions to match the PDF page
+
+const viewport = page.getViewport({ scale: currentZoom });
+
+canvas.width = viewport.width;
+
+canvas.height = viewport.height;
+
+
+// Render the PDF page into the canvas
+
+const renderContext = {
+
+    canvasContext: context,
+
+    viewport: viewport
+
+};
+
+page.render(renderContext).promise.then(() => {
+
+    // Append the canvas to the PDF container
+
+    const pdfContainer = document.getElementById('pdf-container');
+
+    pdfContainer.innerHTML = '';
+
+    pdfContainer.appendChild(canvas);
+
+    });
+
+    });
+
+}
+
+
+// Function to update the page number display
+
+function updatePageNumber() {
+
+document.getElementById('current-page').textContent = currentPage;
+
+document.getElementById('total-pages').textContent = totalPages;
+
+}
+
+
+// Function to go to the previous page
+
+function goToPreviousPage() {
+
+    if (currentPage <= 1) return;
+
+    currentPage--;
+
+    renderPage(currentPage);
+
+    updatePageNumber();
+
+}
+
+
+// Function to go to the next page
+
+function goToNextPage() {
+
+    if (currentPage >= totalPages) return;
+
+    currentPage++;
+
+    renderPage(currentPage);
+
+    updatePageNumber();
+
+}
+
+
+// Function to zoom in
+
+function zoomIn() {
+
+    currentZoom += 0.1;
+
+    renderPage(currentPage);
+
+}
+
+
+// Function to zoom out
+
+function zoomOut() {
+
+    if (currentZoom <= 0.1) return;
+
+    currentZoom -= 0.1;
+
+    renderPage(currentPage);
+
+}
+
+
+// Function to reset zoom
+
+function resetZoom() {
+
+    currentZoom = 1.5;
+
+    renderPage(currentPage);
+
+}
+
+
+// Load the PDF document
+
+function get_index(index_id){
+    var url = '/book/get_index_pdf/'+index_id+'/';
+    var myObject = {
+          'index_id':index_id,
+    }
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        data: myObject,
+        success: function (response) {
+            var responseData = response
+            pdfjsLib.getDocument(responseData.pdf).promise.then(pdf => {
+                pdfInstance = pdf;
+                totalPages = pdf.numPages;
+                updatePageNumber();
+                renderPage(currentPage);
+            });
+        },
+        error: function (xhr, status, error) {
+            // Handle error here
+            console.log(error);
+        }
+    });
+
+}
+
+
+// Event listeners for navigation buttons
+
+document.getElementById('prev-page').addEventListener('click', goToPreviousPage);
+
+document.getElementById('next-page').addEventListener('click', goToNextPage);
+
+
+// Event listeners for zoom controls
+
+document.getElementById('zoom-in').addEventListener('click', zoomIn);
+
+document.getElementById('zoom-out').addEventListener('click', zoomOut);
+
+document.getElementById('zoom-reset').addEventListener('click', resetZoom);
+
+
+
+
+
+
+</script>
+</body>
+</html>
