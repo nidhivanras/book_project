@@ -11,6 +11,7 @@ urlpatterns = [
     path('pravachan/', include('pravachan.urls')),
     path('vichar/', include('vichar.urls')),
     path('book/', include('book.urls')),
+    path('privacy_policy/', include('privacy_policy.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

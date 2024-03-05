@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-2o7nntt^zb3=1)vu@=g&+eij7bdq7-*=^j&uhe#zngv8yrc_kl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'nidhivanras.com', 'www.nidhivanras.com']
+ALLOWED_HOSTS = ['*', 'nidhivanras.in', 'www.nidhivanras.in']
 
 
 # Application definition
@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'vichar',
     'homepage',
     'lookup',
+    'privacy_policy',
 ]
 
 MIDDLEWARE = [
