@@ -38,14 +38,27 @@
             padding: 4px 10px;
             margin-right: 5px;
         }
+
     </style>
 
     <style>
     #pdf-container {
         max-width: 100%;
         height: auto;
+        position: relative;
     }
-</style>
+    </style>
+
+    <style>
+        @media (max-width: 768px) {
+            #pdf-container {
+                max-width: 90%; /* Adjust as needed */
+                height: auto; /* Allow height to adjust automatically */
+                margin: 0 auto; /* Center the container */
+            }
+        }
+    </style>
+
 </head>
 <body>
 <div class="wrapper d-flex align-items-stretch">
@@ -281,6 +294,7 @@ document.getElementById('zoom-in').addEventListener('click', zoomIn);
 document.getElementById('zoom-out').addEventListener('click', zoomOut);
 
 document.getElementById('zoom-reset').addEventListener('click', resetZoom);
+
 
 
 
