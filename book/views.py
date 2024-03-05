@@ -17,11 +17,7 @@ def book_folder_files(request, folder_id):
     context = {
         'folder_files': folder_files,
     }
-    # return render(request, 'book_files.html', context)
     return render(request, 'book_details.html', context)
-    # return render(request, 'test2.html', context)
-    # return render(request, 'home.html', context)
-    # return render(request, 'new_h.html', context)
 
 
 def get_index_pdf(request, index_id):
