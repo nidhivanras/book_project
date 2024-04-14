@@ -9,7 +9,7 @@ def audio_list(request):
     context = {
         'audio_folder': audio_folder,
     }
-    return render(request, 'pravachan_list.html', context)
+    return render(request, 'audio_list.html', context)
 
 
 def audio_folder_files(request, folder_id):
@@ -17,4 +17,4 @@ def audio_folder_files(request, folder_id):
     context = {
         'folder_files': folder_files,
     }
-    return render(request, 'pravachan_files.html', context)
+    return render(request, 'audio_files.html', context)
